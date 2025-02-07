@@ -1,4 +1,4 @@
-package com.dms.restfull.core.domain.model;
+package com.dms.restful.core.domain.model;
 
 public class Greeting {
     private final long id;

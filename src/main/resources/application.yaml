@@ -1,1 +1,6 @@
-spring.application.name=restfull-api
+spring:
+  application:
+    name: restfull-api
+
+dms:
+  url-error: http://localhost:8080/errors

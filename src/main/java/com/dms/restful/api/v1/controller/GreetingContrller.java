@@ -1,6 +1,6 @@
-package com.dms.restfull.api.v1.controller;
+package com.dms.restful.api.v1.controller;
 
-import com.dms.restfull.core.domain.model.Greeting;
+import com.dms.restful.core.domain.model.Greeting;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
