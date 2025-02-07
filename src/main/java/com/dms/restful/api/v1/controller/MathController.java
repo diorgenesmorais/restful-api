@@ -29,5 +29,17 @@ public class MathController {
         return total.add(one).add(two);
     }
 
+    @GetMapping("/subtract/{numberOne}/{numberTwo}")
+    public BigDecimal subtract(@PathVariable("numberOne") String numberOne, @PathVariable("numberTwo") String numberTwo) {
+        if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
+            throw new UnsupportedMathOperationException("Os paths precisam serem números");
+        }
+
+        var one = new BigDecimal(handlerValue(numberOne));
+        var two = new BigDecimal(handlerValue(numberTwo));
+
+        return one.subtract(two);
+    }
+
 
 }
