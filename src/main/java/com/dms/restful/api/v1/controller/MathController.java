@@ -55,4 +55,20 @@ public class MathController {
         return one.multiply(two);
     }
 
+    @GetMapping("/divide/{numberOne}/{numberTwo}")
+    public BigDecimal divide(@PathVariable("numberOne") String numberOne, @PathVariable("numberTwo") String numberTwo) {
+        if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
+            throw new UnsupportedMathOperationException(ERROR_MESSAGE);
+        }
+
+        var one = new BigDecimal(handlerValue(numberOne));
+        var two = new BigDecimal(handlerValue(numberTwo));
+
+        try {
+            return one.divide(two);
+        } catch (ArithmeticException ex) {
+            throw new UnsupportedMathOperationException(ex.getMessage());
+        }
+    }
+
 }
