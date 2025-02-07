@@ -1,6 +1,6 @@
 package com.dms.restful.api.v1.controller;
 
-import com.dms.restful.core.domain.exceptions.BusinessException;
+import com.dms.restful.core.domain.exceptions.UnsupportedMathOperationException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +20,7 @@ public class MathController {
         var total = BigDecimal.ZERO;
         
         if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
-            throw new BusinessException("Precisa ser um número");
+            throw new UnsupportedMathOperationException("Os paths precisam serem números");
         }
 
         var one = new BigDecimal(handlerValue(numberOne));

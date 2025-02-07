@@ -1,6 +1,7 @@
 package com.dms.restful.api.exception;
 
 import com.dms.restful.core.domain.exceptions.BusinessException;
+import com.dms.restful.core.domain.exceptions.UnsupportedMathOperationException;
 import com.dms.restful.core.domain.utils.UrlError;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.*;
@@ -47,6 +48,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ProblemDetail handleException(BusinessException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
         problemDetail.setType(URI.create(getURI("bussiness-rule")));
+        problemDetail.setTitle(ex.getMessage());
+
+        return problemDetail;
+    }
+
+    @ExceptionHandler(UnsupportedMathOperationException.class)
+    public ProblemDetail handleUnsupportedMathOperationException(UnsupportedMathOperationException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problemDetail.setType(URI.create(getURI("unsupported-math-operation")));
         problemDetail.setTitle(ex.getMessage());
 
         return problemDetail;
