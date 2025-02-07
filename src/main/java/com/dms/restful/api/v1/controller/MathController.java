@@ -15,12 +15,14 @@ import static com.dms.restful.core.domain.utils.HandleData.isNumeric;
 @RequestMapping("/math")
 public class MathController {
 
+    private static final String ERROR_MESSAGE = "Os paths precisam serem números";
+
     @GetMapping("/sum/{numberOne}/{numberTwo}")
     public BigDecimal sum(@PathVariable("numberOne") String numberOne, @PathVariable("numberTwo") String numberTwo) {
         var total = BigDecimal.ZERO;
         
         if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
-            throw new UnsupportedMathOperationException("Os paths precisam serem números");
+            throw new UnsupportedMathOperationException(ERROR_MESSAGE);
         }
 
         var one = new BigDecimal(handlerValue(numberOne));
@@ -32,7 +34,7 @@ public class MathController {
     @GetMapping("/subtract/{numberOne}/{numberTwo}")
     public BigDecimal subtract(@PathVariable("numberOne") String numberOne, @PathVariable("numberTwo") String numberTwo) {
         if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
-            throw new UnsupportedMathOperationException("Os paths precisam serem números");
+            throw new UnsupportedMathOperationException(ERROR_MESSAGE);
         }
 
         var one = new BigDecimal(handlerValue(numberOne));
@@ -41,5 +43,16 @@ public class MathController {
         return one.subtract(two);
     }
 
+    @GetMapping("/multiply/{numberOne}/{numberTwo}")
+    public BigDecimal multiply(@PathVariable("numberOne") String numberOne, @PathVariable("numberTwo") String numberTwo) {
+        if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
+            throw new UnsupportedMathOperationException(ERROR_MESSAGE);
+        }
+
+        var one = new BigDecimal(handlerValue(numberOne));
+        var two = new BigDecimal(handlerValue(numberTwo));
+
+        return one.multiply(two);
+    }
 
 }
