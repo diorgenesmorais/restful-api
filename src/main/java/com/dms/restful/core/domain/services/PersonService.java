@@ -18,14 +18,15 @@ public class PersonService {
     private final Logger logger = Logger.getLogger(PersonService.class.getName());
     private final Faker faker = new Faker();
     private final List<Person> persons = new ArrayList<>();
+    private static final String NOT_FOUND = "Person não encontrado";
 
     public Optional<Person> findById(Long id) {
         var info = String.format("Finding person by id %d", id);
         logger.info(info);
-        Person found = findAll().stream()
+        Person found = persons.stream()
                 .filter(person -> person.getId().equals(id))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new BusinessException(NOT_FOUND));
 
         return Optional.ofNullable(found);
     }
@@ -70,14 +71,19 @@ public class PersonService {
     }
 
     public void update(Long id, Person person) {
-        Person found = persons.stream()
-                .filter(p -> p.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new BusinessException("Person não encontrado"));
+        Person found = this.findById(id)
+                .orElseThrow(() -> new BusinessException(NOT_FOUND));
 
         var info = String.format("Updating person %s to %s", found.getFirstname(), person.getFirstname());
         logger.info(info);
         person.setId(id);
         this.save(person);
+    }
+
+    public void delete(Long id) {
+        Person person = this.findById(id)
+                .orElseThrow(() -> new BusinessException(NOT_FOUND));
+
+        persons.removeIf(p -> p.equals(person));
     }
 }

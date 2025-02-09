@@ -40,4 +40,10 @@ public class PersonController {
         personService.update(id, person);
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        personService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
