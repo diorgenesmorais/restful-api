@@ -21,8 +21,9 @@ public class PersonController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Person> fetchId(@PathVariable Long id) {
-        Person person = personService.findById(id);
-        return ResponseEntity.ok(person);
+        return personService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
