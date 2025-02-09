@@ -1,5 +1,6 @@
 package com.dms.restful.core.domain.services;
 
+import com.dms.restful.core.domain.exceptions.BusinessException;
 import com.dms.restful.core.domain.model.Gender;
 import com.dms.restful.core.domain.model.Person;
 import com.github.javafaker.Faker;
@@ -66,5 +67,17 @@ public class PersonService {
                     );
         }
         return person;
+    }
+
+    public void update(Long id, Person person) {
+        Person found = persons.stream()
+                .filter(p -> p.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new BusinessException("Person não encontrado"));
+
+        var info = String.format("Updating person %s to %s", found.getFirstname(), person.getFirstname());
+        logger.info(info);
+        person.setId(id);
+        this.save(person);
     }
 }
