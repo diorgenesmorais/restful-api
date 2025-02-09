@@ -46,4 +46,25 @@ public class PersonService {
         person.setGender(faker.bool().bool() ? Gender.MALE : Gender.FEMALE);
         return person;
     }
+
+    public Person save(Person person) {
+        logger.info("Creating one person");
+        if (person.getId() == null) {
+            person.setId(counter.incrementAndGet());
+            persons.add(person);
+        } else {
+            persons.stream()
+                    .filter(p -> p.equals(person))
+                    .findFirst()
+                    .ifPresent(
+                            existingPerson -> {
+                                existingPerson.setFirstname(person.getFirstname());
+                                existingPerson.setLastname(person.getLastname());
+                                existingPerson.setAdrress(person.getAdrress());
+                                existingPerson.setGender(person.getGender());
+                            }
+                    );
+        }
+        return person;
+    }
 }
